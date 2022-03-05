@@ -1,0 +1,13 @@
+{
+    "editor.defaultFormatter": "misogi.ruby-rubocop",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "*.erb": "erb"
+    },
+    "[erb]": {
+        "editor.defaultFormatter": "aliariff.vscode-erb-beautify"
+    },
+}

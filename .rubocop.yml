@@ -1,0 +1,15 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+AllCops:
+  EnabledByDefault: true
+
+Style/Copyright:
+  Enabled: false
+
+
+Style/DocumentationMethod:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
