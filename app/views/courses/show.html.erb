@@ -1,9 +1,61 @@
-<p id="notice"><%= notice %></p>
-
 <p>
-  <strong>Name:</strong>
-  <%= @course.name %>
+  <strong>Title:</strong>
+  <%= @course.title %>
 </p>
-
+<p>
+  <strong>Number:</strong>
+  <%= @course.number %>
+</p>
+<p>
+  <strong>Instructor:</strong>
+  <%= @course.instructor.first_name %> <%= @course.instructor.last_name %>
+</p>
+<p>
+  <a href="<%= @course.syllabus %>">Syllabus</a>
+</p>
+<h3>Reviews</h3>
+<h5 style="color: green">
+  <%= notice %>
+</h5>
+<table class="table table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Date</th>
+      <th>Score</th>
+      <th>Comment</th>
+      <th>Likes</th>
+    </tr>
+  </thead>
+  <% @reviews.each do |review| %>
+    <tr>
+      <td><%= review.created_at.strftime("%Y-%m-%d") %></td>
+      <td><%= review.score %></td>
+      <td><%= review.comment %></td>
+      <td><%= review.likes %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<form action="/reviews" method="post">
+  <input name="course_id" id="course_id" type="hidden" value=<%= @course.id %>>
+  <h3>Add Review</h3>
+  <div>
+    <label>&#11088;</label>
+    <select name="stars" id="stars">
+      <option value=1>1</option>
+      <option value=2>2</option>
+      <option value=3>3</option>
+      <option value=4>4</option>
+      <option value=5>5</option>
+    </select>
+  </div>
+  <div>
+    <h5>Add Comment</h5>
+    <textarea name="comment_input" id="comment_input" rows="4" cols="50"></textarea>
+  </div>
+  <button>
+    Submit
+  </button>
+</form>
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>

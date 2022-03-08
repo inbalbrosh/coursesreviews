@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
   resources :courses
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  # get  '/search'
-  # root to: 'course#search'
-  # get  'search', to: 'course#search'
-  root 'course#search'
-  get  'search', to: 'course#search'
+
+  get('/', { controller: 'courses', action: 'search', as: 'home' })
+
+  get('/courses/results/query', { controller: 'courses', action: 'results', as: 'results' })
+
+  post('/reviews', { controller: 'reviews', action: 'create' })
+
+  get('/users/new', { controller: 'users', action: 'new' })
+
+  post('/users', { controller: 'users', action: 'create' })
+
+  get('/users/login', { controller: 'users', action: 'login' })
+
+  post('/users/sign_in', { controller: 'users', action: 'sign_in' })
 end
