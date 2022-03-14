@@ -1,34 +1,35 @@
-<% if @courses.length > 0 %>
-  <h1>Courses</h1>
-  <table class="table table-hover">
-    <thead class="table-dark">
+<%= stylesheet_link_tag "courses_table" %>
+<h1>Courses</h1>
+<table class="table table-striped table-bordered table-sm" >
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" class="header">
+        <%= link_to "Title", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "title", :query => params[:query]  %>
+      </th>
+      <th scope="col" class="header"><%= link_to "AVG score", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "avg", :query => params[:query]  %></th>
+      <th scope="col" class="header"><%= link_to "Number", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "number", :query => params[:query]  %></th>
+      <th scope="col" class="header"><%= link_to "Instructor", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "instructors_first_name", :query => params[:query]  %></th>
+      <th scope="col">Syllabus</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @courses.each_with_index do |course, index| %>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Number</th>
-        <th scope="col">Instructor</th>
-        <th scope="col">Syllabus</th>
-        <th colspan="3"></th>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= course["title"] %></td>
+        <td>
+          <%= course["avg"] == 0 ? "N/A" : course["avg"].round(2) %>
+        </td>
+        <td><%= course["number"] %></td>
+        <td><%= course["instructors_first_name"] %> <%= course["instructors_last_name"] %></td>
+        <td>
+          <a target="_blank" href="<%= course["syllabus"] %>">Syllabus</a>
+        </td>
+        <td><%= link_to 'Show', course_path(:id => course["id"]) %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @courses.each_with_index do |course, index| %>
-        <tr>
-          <th scope="row"><%= index + 1 %></th>
-          <td><%= course.title %></td>
-          <td><%= course.number %></td>
-          <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
-          <td>
-            <a href="<%= course.syllabus %>">Syllabus</a>
-          </td>
-          <td><%= link_to 'Show', course %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <br>
-  <%= link_to 'New Course', new_course_path %>
-<% end %>
-<% if @courses.length == 0 %>
-  <h1>Sorry, no courses were found</h1>
-<% end %>
+    <% end %>
+  </tbody>
+</table>
+<br>

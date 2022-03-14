@@ -1,17 +1,23 @@
 Rails.application.routes.draw do
-  resources :courses
+  devise_for :users
+  # resources :courses
+
+  root to: 'courses#search'
+
+  get('/courses', { controller: 'courses', action: 'index' })
+
+  get(
+    '/courses/:id',
+    { constraints: { id: /[0-9]+(%7C[0-9]+)*/ }, controller: 'courses', action: 'show', as: 'course' }
+  )
 
   get('/', { controller: 'courses', action: 'search', as: 'home' })
 
-  get('/courses/results/query', { controller: 'courses', action: 'results', as: 'results' })
+  get('/courses/results', { controller: 'courses', action: 'results', as: 'results' })
 
   post('/reviews', { controller: 'reviews', action: 'create' })
 
-  get('/users/new', { controller: 'users', action: 'new' })
+  post('courses/sort', { controller: 'courses', action: 'sort' })
 
-  post('/users', { controller: 'users', action: 'create' })
-
-  get('/users/login', { controller: 'users', action: 'login' })
-
-  post('/users/sign_in', { controller: 'users', action: 'sign_in' })
+  post('reviews/edit', { controller: 'reviews', action: 'edit', as: 'edit_review' })
 end

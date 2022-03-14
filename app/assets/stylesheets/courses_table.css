@@ -1,0 +1,7 @@
+.header {
+    cursor: pointer;
+}
+
+.header:hover {
+    background-color: gray
+  }

@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag "show_course" %>
 <p>
   <strong>Title:</strong>
   <%= @course.title %>
@@ -7,47 +8,22 @@
   <%= @course.number %>
 </p>
 <p>
+  <strong>AVG score:</strong>
+  <%= @avg_score %>
+</p>
+<p>
   <strong>Instructor:</strong>
   <%= @course.instructor.first_name %> <%= @course.instructor.last_name %>
 </p>
 <p>
   <a href="<%= @course.syllabus %>">Syllabus</a>
 </p>
-<h3>Reviews</h3>
-<h5 style="color: green">
-  <%= notice %>
-</h5>
-<table class="table table-hover">
-  <thead class="table-dark">
-    <tr>
-      <th>Date</th>
-      <th>Score</th>
-      <th>Comment</th>
-      <th>Likes</th>
-    </tr>
-  </thead>
-  <% @reviews.each do |review| %>
-    <tr>
-      <td><%= review.created_at.strftime("%Y-%m-%d") %></td>
-      <td><%= review.score %></td>
-      <td><%= review.comment %></td>
-      <td><%= review.likes %></td>
-    </tr>
-  <% end %>
-</tbody>
-</table>
-<form action="/reviews" method="post">
+<%= form_with url: reviews_path, method: :post do |form| %>
   <input name="course_id" id="course_id" type="hidden" value=<%= @course.id %>>
   <h3>Add Review</h3>
   <div>
     <label>&#11088;</label>
-    <select name="stars" id="stars">
-      <option value=1>1</option>
-      <option value=2>2</option>
-      <option value=3>3</option>
-      <option value=4>4</option>
-      <option value=5>5</option>
-    </select>
+    <%= form.select :stars, [["Select", -1], 1,2,3,4,5]%>
   </div>
   <div>
     <h5>Add Comment</h5>
@@ -56,6 +32,34 @@
   <button>
     Submit
   </button>
-</form>
-<%= link_to 'Edit', edit_course_path(@course) %> |
+<% end %>
+<h3>Reviews</h3>
+<table class="table table-hover table-responsive">
+  <thead class="table-dark">
+    <tr>
+      <th>&#11088; Score</th>
+      <th>Comment</th>
+      <th>Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <% @reviews.each do |review| %>
+    <%= form_with url: edit_review_path, method: :post do |form| %>
+      <input name="review_id" id="review_id" type="hidden" value=<%= review.id %>>
+      <tr>
+        <td>
+          <%= form.select :stars, [1,2,3,4,5], selected: review.score, :disabled => review.user_id == current_user.id ? [] : [1,2,3,4,5]%>
+        </td>
+        <td>
+          <%= text_area_tag :comment_input, review.comment, size: "100x10", readonly:  review.user_id != current_user.id %>
+        </td>
+        <td><%= review.created_at.strftime("%Y-%m-%d") %></td>
+        <% if review.user_id == current_user.id%>
+          <td><button type="submit" class="btn btn-dark">Edit</button></td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
+</tbody>
+</table>
 <%= link_to 'Back', courses_path %>
