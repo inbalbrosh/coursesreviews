@@ -21,6 +21,15 @@ class ReviewsController < ApplicationController
     redirect_back(fallback_location: home_path)
   end
 
+  def action
+    type = params.fetch('submit-button')
+    if type == 'edit'
+      edit()
+    else
+      delete()
+    end
+  end
+
   def edit
     review_id = Integer(params.fetch('review_id'), 10)
     the_review = Review.where({ id: review_id }).first
@@ -34,6 +43,15 @@ class ReviewsController < ApplicationController
       flash[:error] = the_review.errors.full_messages.to_sentence
     end
 
+    redirect_back(fallback_location: home_path)
+  end
+
+  def delete
+    review_id = Integer(params.fetch('review_id'), 10)
+    
+    Review.destroy(review_id)
+    
+    flash[:notice] = 'Your Review Has Been Deleted'
     redirect_back(fallback_location: home_path)
   end
 end

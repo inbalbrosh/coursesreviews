@@ -4,11 +4,12 @@
   <thead class="table-dark">
     <tr>
       <th scope="col">#</th>
+      <th scope="col" class="header"><%= link_to "Number", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "number", :query => params[:query]  %></th>      
       <th scope="col" class="header">
         <%= link_to "Title", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "title", :query => params[:query]  %>
       </th>
       <th scope="col" class="header"><%= link_to "AVG score", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "avg", :query => params[:query]  %></th>
-      <th scope="col" class="header"><%= link_to "Number", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "number", :query => params[:query]  %></th>
+    
       <th scope="col" class="header"><%= link_to "Instructor", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "instructors_first_name", :query => params[:query]  %></th>
       <th scope="col">Syllabus</th>
       <th colspan="3"></th>
@@ -18,11 +19,11 @@
     <% @courses.each_with_index do |course, index| %>
       <tr>
         <th scope="row"><%= index + 1 %></th>
+        <td><%= course["number"] %></td>
         <td><%= course["title"] %></td>
         <td>
           <%= course["avg"] == 0 ? "N/A" : course["avg"].round(2) %>
         </td>
-        <td><%= course["number"] %></td>
         <td><%= course["instructors_first_name"] %> <%= course["instructors_last_name"] %></td>
         <td>
           <a target="_blank" href="<%= course["syllabus"] %>">Syllabus</a>

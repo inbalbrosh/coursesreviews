@@ -19,5 +19,5 @@ Rails.application.routes.draw do
 
   post('courses/sort', { controller: 'courses', action: 'sort' })
 
-  post('reviews/edit', { controller: 'reviews', action: 'edit', as: 'edit_review' })
+  post('reviews/action', { controller: 'reviews', action: 'action', as: 'action_review' })
 end

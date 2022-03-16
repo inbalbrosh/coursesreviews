@@ -1,8 +1,14 @@
 <%= stylesheet_link_tag "show_course" %>
-<p>
-  <strong>Title:</strong>
+<script>
+function toggleReviewForm() {
+  const element = document.getElementById("review_form");
+  element.classList.toggle("hidden");
+}
+</script>
+
+<h1>
   <%= @course.title %>
-</p>
+</h1>
 <p>
   <strong>Number:</strong>
   <%= @course.number %>
@@ -16,24 +22,31 @@
   <%= @course.instructor.first_name %> <%= @course.instructor.last_name %>
 </p>
 <p>
-  <a href="<%= @course.syllabus %>">Syllabus</a>
+  <a target="_blank" href="<%= @course.syllabus %>">Syllabus</a>
 </p>
+<div id="review_form" class="hidden">
+<hr/>
 <%= form_with url: reviews_path, method: :post do |form| %>
   <input name="course_id" id="course_id" type="hidden" value=<%= @course.id %>>
-  <h3>Add Review</h3>
-  <div>
-    <label>&#11088;</label>
-    <%= form.select :stars, [["Select", -1], 1,2,3,4,5]%>
+  <h4>Add Review</h4>
+  <div class="form-group col-md-2 mt-2">
+    <label for="stars">Number of &#11088;</label>
+    <%= form.select :stars, [["Choose", -1], 1,2,3,4,5], {}, { class: "form-control"} %>
   </div>
-  <div>
-    <h5>Add Comment</h5>
-    <textarea name="comment_input" id="comment_input" rows="4" cols="50"></textarea>
+  <div class="form-group col-md-4 mt-2">
+    <label for="comment_input">Comment</label>
+    <textarea name="comment_input" id="comment_input" rows="3" class="form-control"></textarea>
   </div>
-  <button>
+  <button class="btn btn-outline-primary mt-2">
     Submit
   </button>
 <% end %>
-<h3>Reviews</h3>
+</div>
+<hr/>
+<div class="reviews-header">
+<span class="reviews-title">Reviews</span>
+<button onclick="toggleReviewForm()" id="show_review_form" class="btn btn-outline-primary btn-sm">Add Review</button>
+</div>
 <table class="table table-hover table-responsive">
   <thead class="table-dark">
     <tr>
@@ -41,10 +54,11 @@
       <th>Comment</th>
       <th>Date</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <% @reviews.each do |review| %>
-    <%= form_with url: edit_review_path, method: :post do |form| %>
+    <%= form_with url: action_review_path, method: :post do |form| %>
       <input name="review_id" id="review_id" type="hidden" value=<%= review.id %>>
       <tr>
         <td>
@@ -55,7 +69,8 @@
         </td>
         <td><%= review.created_at.strftime("%Y-%m-%d") %></td>
         <% if review.user_id == current_user.id%>
-          <td><button type="submit" class="btn btn-dark">Edit</button></td>
+          <td><button type="submit" class="btn btn-outline-primary" name="submit-button" value="edit">Edit</button></td>
+          <td><button type="submit" class="btn btn-outline-primary" name="submit-button" value="delete">Delete</button></td>
         <% end %>
       </tr>
     <% end %>
@@ -63,3 +78,4 @@
 </tbody>
 </table>
 <%= link_to 'Back', courses_path %>
+</div>

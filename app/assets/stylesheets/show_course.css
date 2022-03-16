@@ -2,3 +2,22 @@
     border: none;
     outline: none;
 }
+
+select.form-control {
+    -webkit-appearance: menulist;
+}
+
+.main {
+    margin-left: 10px;
+}
+
+.hidden { display: none; }
+
+.reviews-title{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.reviews-header {
+    margin-bottom: 10px;
+}
