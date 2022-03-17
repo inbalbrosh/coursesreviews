@@ -4,12 +4,11 @@
   <thead class="table-dark">
     <tr>
       <th scope="col">#</th>
-      <th scope="col" class="header"><%= link_to "Number", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "number", :query => params[:query]  %></th>      
+      <th scope="col" class="header"><%= link_to "Number", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "number", :query => params[:query]  %></th>
       <th scope="col" class="header">
         <%= link_to "Title", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "title", :query => params[:query]  %>
       </th>
       <th scope="col" class="header"><%= link_to "AVG score", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "avg", :query => params[:query]  %></th>
-    
       <th scope="col" class="header"><%= link_to "Instructor", :by => params[:by] == "asc" ? "desc" : "asc", :sort => "instructors_first_name", :query => params[:query]  %></th>
       <th scope="col">Syllabus</th>
       <th colspan="3"></th>
